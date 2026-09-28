@@ -1,0 +1,11 @@
+name: LastMark
+version: 1.0.0
+main: io.github.s3ryum.deathmark.LastMarkPlugin
+description: Saves your latest death location and points a compass back to it.
+author: S3ryum
+api-version: '26.2'
+commands:
+  lastmark:
+    description: View or mark your most recent death location.
+    usage: /lastmark [compass|clear]
+    aliases: [lastdeath]
