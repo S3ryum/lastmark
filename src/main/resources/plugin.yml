@@ -7,5 +7,5 @@ api-version: '26.2'
 commands:
   lastmark:
     description: View or mark your most recent death location.
-    usage: /lastmark [compass|clear]
+    usage: /lastmark [distance|compass|clear]
     aliases: [lastdeath]

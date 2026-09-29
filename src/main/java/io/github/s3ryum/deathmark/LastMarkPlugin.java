@@ -113,7 +113,8 @@ public class LastMarkPlugin extends JavaPlugin implements Listener, CommandExecu
         switch (args[0].toLowerCase(Locale.ROOT)) {
             case "compass" -> pointCompass(player);
             case "clear" -> clearLocation(player);
-            default -> player.sendMessage(color("&eUsage: /" + label + " [compass|clear]"));
+            case "distance" -> showDistance(player);
+            default -> player.sendMessage(color("&eUsage: /" + label + " [distance|compass|clear]"));
         }
         return true;
     }
@@ -124,9 +125,29 @@ public class LastMarkPlugin extends JavaPlugin implements Listener, CommandExecu
             return List.of();
         }
         String prefix = args[0].toLowerCase(Locale.ROOT);
-        return List.of("compass", "clear").stream()
+        return List.of("distance", "compass", "clear").stream()
                 .filter(option -> option.startsWith(prefix))
                 .toList();
+    }
+
+    private void showDistance(Player player) {
+        DeathRecord record = records.get(player.getUniqueId());
+        if (record == null) {
+            player.sendMessage(color("&eNo saved death location yet. Your next death will be recorded."));
+            return;
+        }
+        if (!player.getWorld().getUID().equals(record.worldId())) {
+            player.sendMessage(color("&eYour last death is in " + record.worldName()
+                    + ". Distance is available when you are in the same world."));
+            return;
+        }
+
+        long blocks = DistanceMath.roundedBlocks(
+                player.getLocation().getX() - record.x(),
+                player.getLocation().getY() - record.y(),
+                player.getLocation().getZ() - record.z());
+        player.sendMessage(color("&6Your last death is about &f" + blocks
+                + " blocks &6away in a straight line."));
     }
 
     private void showLocation(Player player) {
