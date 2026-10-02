@@ -27,9 +27,10 @@ After a player dies, LastMark records that location automatically.
 
 - `/lastmark` — show the saved world's name and coordinates
 - `/lastmark distance` — show the straight-line distance in blocks when you are in the same world
+- `/lastmark age` — show how long ago the saved death was recorded
 - `/lastmark compass` — point a compass in either hand to the saved location; you must be in the same world
 - `/lastmark clear` — remove your saved death location
 
-The command also has the `/lastdeath` alias. No additional permissions or configuration are required.
+The command also has the `/lastdeath` alias. Age is shown using the largest one or two time units, such as `2 hours 15 minutes ago`. No additional permissions or configuration are required.
 
 Death records are kept in `plugins/LastMark/deaths.yml`. LastMark does not send player data to an external service.

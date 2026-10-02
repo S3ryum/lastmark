@@ -114,7 +114,8 @@ public class LastMarkPlugin extends JavaPlugin implements Listener, CommandExecu
             case "compass" -> pointCompass(player);
             case "clear" -> clearLocation(player);
             case "distance" -> showDistance(player);
-            default -> player.sendMessage(color("&eUsage: /" + label + " [distance|compass|clear]"));
+            case "age" -> showAge(player);
+            default -> player.sendMessage(color("&eUsage: /" + label + " [distance|age|compass|clear]"));
         }
         return true;
     }
@@ -125,7 +126,7 @@ public class LastMarkPlugin extends JavaPlugin implements Listener, CommandExecu
             return List.of();
         }
         String prefix = args[0].toLowerCase(Locale.ROOT);
-        return List.of("distance", "compass", "clear").stream()
+        return List.of("distance", "age", "compass", "clear").stream()
                 .filter(option -> option.startsWith(prefix))
                 .toList();
     }
@@ -148,6 +149,16 @@ public class LastMarkPlugin extends JavaPlugin implements Listener, CommandExecu
                 player.getLocation().getZ() - record.z());
         player.sendMessage(color("&6Your last death is about &f" + blocks
                 + " blocks &6away in a straight line."));
+    }
+
+    private void showAge(Player player) {
+        DeathRecord record = records.get(player.getUniqueId());
+        if (record == null) {
+            player.sendMessage(color("&eNo saved death location yet. Your next death will be recorded."));
+            return;
+        }
+        player.sendMessage(color("&6Your last death was recorded &f"
+                + AgeText.format(record.recordedAt(), System.currentTimeMillis()) + "&6."));
     }
 
     private void showLocation(Player player) {
